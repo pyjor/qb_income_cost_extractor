@@ -58,13 +58,37 @@ if uploaded_files:
     pivot_df = combined_df.pivot_table(index="Project", aggfunc='first')
     pivot_df = pivot_df.fillna(0)
 
+    # Create Profit & Loss Sheet safely
+    profit_dict = {}
+    projects = set(idx.replace(" - Income", "").replace(" - Cost", "") for idx in pivot_df.index)
+    for project in projects:
+        income_key = project + " - Income"
+        cost_key = project + " - Cost"
+        income_row = pivot_df.loc[income_key] if income_key in pivot_df.index else pd.Series(0, index=pivot_df.columns)
+        cost_row = pivot_df.loc[cost_key] if cost_key in pivot_df.index else pd.Series(0, index=pivot_df.columns)
+        profit_dict[project] = income_row - cost_row
+
+    profit_df = pd.DataFrame.from_dict(profit_dict, orient='index').fillna(0)
+    profit_df.index.name = "Project"
+
+    # Add totals row to both tables
+    pivot_df.loc["Total"] = pivot_df.sum()
+    profit_df.loc["Total"] = profit_df.sum()
+
     st.success("✅ Data processed successfully!")
-    st.dataframe(pivot_df)
+    st.subheader("📌 Project Summary Table")
+    st.dataframe(pivot_df.style.format("${:,.2f}"))
+
+    st.subheader("📌 Profit and Loss Table")
+    styled_profit_df = profit_df.style.format("${:,.2f}").applymap(lambda val: "background-color: #ffe6e6" if val < 0 else "")
+    st.dataframe(styled_profit_df)
 
     # Export to Excel
     buffer = io.BytesIO()
     with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
         pivot_df.to_excel(writer, index=True, sheet_name='Project Summary')
+        profit_df.to_excel(writer, index=True, sheet_name='Profit and Loss')
+
     st.download_button("📥 Download Excel File", data=buffer.getvalue(), file_name="project_summary.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 else:
     st.info("Please upload at least one Excel file to begin.")
