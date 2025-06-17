@@ -75,7 +75,7 @@ if uploaded_files:
     pivot_df.loc["Total"] = pivot_df.sum()
     profit_df.loc["Total"] = profit_df.sum()
 
-    st.success("✅ Data processed successfully!")
+    st.success("AWESOME, Data processed successfully!")
     st.subheader("📌 Project Summary Table")
     st.dataframe(pivot_df.style.format("${:,.2f}"))
 
