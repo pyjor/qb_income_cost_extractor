@@ -5,7 +5,7 @@ import seaborn as sns
 import io
 
 st.set_page_config(page_title="Project Summary Extractor", layout="wide")
-st.title("This mini app extracts Income and Cost From a Quickbooks PnL by Costumer Report")
+st.title("This mini app extracts income and cost From a Quickbooks PnL by Costumer Report and shows basic insights")
 st.subheader("All Excel Files MUST be in Numeric Format")
 
 # this funtion reads the excel
