@@ -4,7 +4,7 @@ import io
 
 st.set_page_config(page_title="Project Summary Extractor", layout="wide")
 st.title("This mini app extracts Income and Cost From a Quickbooks PnL by Costumer Report")
-st.subheader("Please double check all of your excel files are in Numeric Format, this is a must")
+st.subheader("All Excel Files MUST be in Numeric Format")
 
 # Function to extract data from each Excel file
 def extract_with_month_from_b6(file_obj, file_name):
