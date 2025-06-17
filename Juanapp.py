@@ -6,11 +6,11 @@ st.set_page_config(page_title="Project Summary Extractor", layout="wide")
 st.title("This mini app extracts Income and Cost From a Quickbooks PnL by Costumer Report")
 st.subheader("All Excel Files MUST be in Numeric Format")
 
-# Function to extract data from each Excel file
+# this funtion reads the excel
 def extract_with_month_from_b6(file_obj, file_name):
     df = pd.read_excel(file_obj, sheet_name=0, header=None)
 
-    # Project names from row 5 (index 4), columns B onward
+    # Pthis a mapping, so in this case we are mapping our projects, we are telling the program our projectsa the ones in the row 4
     project_names = df.iloc[4, 1:].fillna("").astype(str).str.strip()
 
     # Only use columns with valid project names that include ()
