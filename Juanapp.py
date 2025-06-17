@@ -3,7 +3,7 @@ import pandas as pd
 import io
 
 st.set_page_config(page_title="Project Summary Extractor", layout="wide")
-st.title("📊 Extract Contract Sales & COGS from Excel Files")
+st.title("This mini app extracts Income and Cost From a Quickbooks PnL by Costumer Report")
 
 # Function to extract data from each Excel file
 def extract_with_month_from_b6(file_obj, file_name):
